@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { HomePageComponent } from './modules/home-page/home-page.component';
 import { FavouritesComponent } from './modules/favourites/favourites.component';
+import { HttpClientModule } from '@angular/common/http';
+import { DxButtonModule } from 'devextreme-angular';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { FavouritesComponent } from './modules/favourites/favourites.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {})
+    StoreModule.forRoot({}, {}),
+    HttpClientModule,
+    DxButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
