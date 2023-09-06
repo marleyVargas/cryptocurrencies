@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="row">
+        <p class="h3">Favourites list</p>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let row of favorites$ |async">
+                <th scope="row"> 
+                    <button (click)="deleteFavorite(row.id)" mat-icon-button color="warn" matTooltip="Remove from favorites">
+                        <mat-icon>favorite</mat-icon>
+                    </button>
+                </th>
+                <td><img [src]="row.icon" style="max-width: 19px;"> {{row.name}}</td>
+                <td>{{row.price | currency: 'USD'}}</td>
+            </tr>
+            </tbody>
+        </table>
+        
+    </div>
+</div>
