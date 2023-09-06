@@ -47,7 +47,7 @@ export class ChartComponent {
       this.chart.update(); 
     })
 
-    //this.getRealTime()
+    this.getRealTime()
   }
 
   getRealTime(){    
