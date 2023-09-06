@@ -5,22 +5,43 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { HomePageComponent } from './modules/home-page/home-page.component';
-import { FavouritesComponent } from './modules/favourites/favourites.component';
 import { HttpClientModule } from '@angular/common/http';
-import { DxButtonModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon'
+import { LayoutComponent } from './layout/layout.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { FavoritesComponent } from './modules/favorites/favorites.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { favoriteReducer } from './store/favorite.reducer';
+import { CoinsComponent } from './modules/coins/coins.component';
+import { ChartComponent } from './modules/chart/chart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
-    FavouritesComponent
+    LayoutComponent,
+    FavoritesComponent,
+    CoinsComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {}),
     HttpClientModule,
-    DxButtonModule
+    DxButtonModule,
+    BrowserAnimationsModule,
+    DxDataGridModule,
+    MatIconModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    StoreModule.forRoot({ collection: favoriteReducer }),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

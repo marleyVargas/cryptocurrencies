@@ -1,11 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  DxDataGridComponent,
-  DxDataGridModule,
-  DxSelectBoxModule,
-  DxCheckBoxModule,
-} from 'devextreme-angular';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { DxDataGridComponent, DxTemplateModule } from 'devextreme-angular';
 import { CoinService } from 'src/app/services/coin.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { Store } from '@ngrx/store';
+import { FavoriteActions } from 'src/app/store/favorite.actions'
+import { Observable } from 'rxjs';
+import { selectFavoriteCollection } from 'src/app/store/favorite.selector';
+import { Chart, registerables } from 'chart.js';
+import { apiKey, websocketUri } from 'src/environments/environment';
+import { Favorite } from 'src/app/models/favorite.model';
+Chart.register(...registerables);
+
 
 @Component({
   selector: 'app-home-page',
@@ -13,21 +18,33 @@ import { CoinService } from 'src/app/services/coin.service';
   styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent implements OnInit{
-  @ViewChild('tableCoin') dataGrid!: DxDataGridComponent;
+  @ViewChild('myChart', { static: true }) canvas: ElementRef<HTMLCanvasElement> | undefined ;
+  private ctx!: CanvasRenderingContext2D | null;
 
-  assets = <any>[];
-  //data!: MatTableDataSource<any>;
-  columnsToDisplay = ['date', 'merchInvoice', 'merchant', 'location', 'icao', 'dodaac', 'tail', 'item', 'total', 'card', 'status'];
-  
-  constructor(private _coinService: CoinService) {
+  dataSource = <any>[];
+  favorites$ = this.store.select(selectFavoriteCollection);
+  favorites : Favorite[] = []
+
+  constructor(
+    private _coinService: CoinService,
+    private store: Store<{ count: number }>
+    ) {
+
     this._coinService.getAssets().subscribe(res => {
-      this.assets = res;
+      this.dataSource = res;   
+      console.log(this.dataSource)       
     })
   }
 
-  ngOnInit(): void {
-    
+ 
+  ngOnInit(): void {   
+    this.favorites$.subscribe(res =>{
+      this.favorites = [...res];
+    })
+
    
   }
+
+ 
 
 }

@@ -19,10 +19,17 @@ export class CoinService {
     return this._http.get<any>(`${coinApiUri}/assets`, { headers: this._httpHeaders });
   }
 
-  public getAssetById(assetId: number): Observable<any> {
-    return this._http.get<any>(`${coinApiUri}/assets/${assetId}`, { headers: this._httpHeaders });
+  public getAssetFilter(assets: string[]): Observable<any> {
+    return this._http.get<any>(`${coinApiUri}/assets/${assets}`, { headers: this._httpHeaders });
   }
 
+  public getIcons(): Observable<any> {
+    return this._http.get<any>(`${coinApiUri}/assets/icons/32`, { headers: this._httpHeaders });
+  }
+
+  public getSymbols(): Observable<any> {
+    return this._http.get<any>(`${coinApiUri}/symbols`, { headers: this._httpHeaders });
+  }
 
 }
 

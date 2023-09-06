@@ -1,0 +1,13 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.navigate{
+  cursor: pointer;
+}
+
+.title-app{
+  font-family: 'Brush Script MT', cursive,'Times New Roman', Times, serif;
+  font-style: italic;
+  font-size: 27px;
+}
