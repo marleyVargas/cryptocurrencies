@@ -47,7 +47,7 @@ export class ChartComponent {
       this.chart.update(); 
     })
 
-    this.getRealTime()
+    //this.getRealTime()
   }
 
   getRealTime(){    
@@ -90,9 +90,9 @@ export class ChartComponent {
             console.log(`WebSocket error: ${error}`);
         };
     }
-       
-    this.timestamps = time_exchange;
-    this.tradeprices = price;  
+
+    this.chart.data.labels = time_exchange;
+    this.chart.data.datasets[0].data = price; 
 
     // Update the chart
     this.chart.update();    
