@@ -32,7 +32,6 @@ export class HomePageComponent implements OnInit{
 
     this._coinService.getAssets().subscribe(res => {
       this.dataSource = res;   
-      console.log(this.dataSource)       
     })
   }
 

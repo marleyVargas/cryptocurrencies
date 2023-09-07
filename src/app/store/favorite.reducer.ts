@@ -7,11 +7,24 @@ export const initialState: ReadonlyArray<Favorite> = [];
 export const favoriteReducer = createReducer(
   initialState,
   on(FavoriteActions.removeFavorite, (state, { favoriteId }) =>
-    state.filter((x) => x.id !== favoriteId)
+    {
+      state = state.filter((x) => x.id !== favoriteId),
+      localStorage.removeItem("fav");
+      localStorage.setItem("fav", JSON.stringify(state));
+      return state;
+    }
   ),
   on(FavoriteActions.addFavorite, (state, { favorite }) => {
-    if (state.indexOf(favorite) > -1) return state;
+    
+    var str = localStorage.getItem("fav")
+    
+    if(!state.length && str) state = JSON.parse(str);
 
-    return [...state, favorite];
+    if (state.indexOf(favorite) > -1) return state;
+    
+    var newArr = [...state, favorite]
+    
+    localStorage.setItem("fav", JSON.stringify(newArr))
+    return newArr;
   })
 );

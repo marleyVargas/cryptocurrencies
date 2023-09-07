@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/e8e7ef6e-8525-4ae3-ad20-418e3d83ebc2/resourceGroups/marleyvargasCryptocurrency_group/providers/Microsoft.Web/sites/marleyvargasCryptocurrency",
+    "appService.deploySubpath": "dist"
+}

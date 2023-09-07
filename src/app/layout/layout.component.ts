@@ -20,6 +20,7 @@ export class LayoutComponent implements OnInit {
   navigateTo(url: string)
   {
     this._router.navigate([url])
+
   }
 
 }

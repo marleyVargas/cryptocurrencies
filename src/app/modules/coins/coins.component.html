@@ -1,70 +1,73 @@
-<div class="container-sm">
-    <dx-data-grid id="tableCoin" 
-    [dataSource]="dataSource" 
-    [showBorders]="true"
-    [showColumnLines]="false" [showRowLines]="true" 
-    [rowAlternationEnabled]="true" class="table-coin"
-    >     
-    
-        <dxo-filter-row [visible]="false"></dxo-filter-row>
-        <dxo-header-filter [visible]="false"></dxo-header-filter>
-    
-    
-        <dxo-paging [pageSize]="10"></dxo-paging>
-        <dxo-pager [showPageSizeSelector]="true" [visible]="true" [allowedPageSizes]="[ 10, 20, 50, 100]" [showInfo]="true"></dxo-pager>
-
-    
-        <dxo-export [enabled]="false" [allowExportSelectedData]="true" 
-        [formats]="['xlsx', 'pdf']"></dxo-export>
-    
-    
-        <dxo-remote-operations [filtering]="true" [sorting]="true" [grouping]="false" [paging]="true" [summary]="true"></dxo-remote-operations>
-    
-
-        <dxo-search-panel [visible]="true"></dxo-search-panel>
+<div class="container text-center">
+    <div class="row align-items-center">
+        <dx-data-grid id="tableCoin" 
+        [dataSource]="dataSource" 
+        [showBorders]="true"
+        [showColumnLines]="false" 
+        [showRowLines]="true" 
+        [columnMinWidth]="40"
+        [columnAutoWidth]="true"
+        [rowAlternationEnabled]="true"
+        [allowColumnResizing]="true"
+        >     
         
-        <dxo-master-detail [enabled]="false"></dxo-master-detail>
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-header-filter [visible]="false"></dxo-header-filter>
         
-        <dxi-column dataField="asset_id" cellTemplate="asset_id" caption=""></dxi-column>
-        <dxi-column dataField="name" cellTemplate="name"></dxi-column>
-        <dxi-column dataField="price_usd" cellTemplate="price_usd" caption="Price USD"></dxi-column>
-        <dxi-column dataField="data_end" dataType="date" caption="Last Data"></dxi-column>
-        <dxi-column dataField="data_quote_end" dataType="date" caption="Quote End"></dxi-column>
-        <dxi-column dataField="data_trade_end" dataType="date" caption="Last Trade"></dxi-column>
-        <dxi-column dataField="type_is_crypto" cellTemplate="is_crypto" caption="Is Crypto"></dxi-column>
-        <!-- <dxi-column dataField="data_symbols_count" caption="Symbols"></dxi-column> -->
-        <dxi-column dataField="volume_1hrs_usd" cellTemplate="volume_1hrs_usd" caption="Volume (1h)"></dxi-column>
-        <dxi-column dataField="volume_1day_usd" cellTemplate="volume_1day_usd" caption="Volume (1day)"></dxi-column>
-        <dxi-column dataField="volume_1mth_usd" cellTemplate="volume_1mth_usd" caption="Volume (1mth)"></dxi-column>
         
-        <div *dxTemplate="let row of 'asset_id'">
-            <button (click)="deleteFavorite(row.data.asset_id)" *ngIf="isFavorite(row.data.asset_id)" mat-icon-button color="warn" matTooltip="Remove from favorites">
-                <mat-icon>favorite</mat-icon>
-            </button>
-            <button (click)="addFavorite(row.data.asset_id, row.data.name, row.data.price_usd, row.data.data_end)" *ngIf="!isFavorite(row.data.asset_id)" mat-icon-button color="warn" matTooltip="Add to favorites">
-                <mat-icon>favorite_border</mat-icon>
-            </button>
-        </div>
-        <div *dxTemplate="let row of 'name'">
-            <img [src]="getIcon(row.data.asset_id)" style="max-width: 19px;"> {{row.data.name}}
-        </div>
-        <div *dxTemplate="let row of 'price_usd'">
-            {{row.value | currency: 'USD'}}
-        </div>
-        <div *dxTemplate="let row of 'is_crypto'">
-            <span class="badge text-wrap" [ngClass]="{'bg-success': row.data.type_is_crypto == 1, 'bg-primary': row.data.type_is_crypto != 1}">
-                {{row.data.type_is_crypto == 1 ? 'Yes' : 'No'}}
-            </span>
-        </div>
-        <div *dxTemplate="let row of 'volume_1hrs_usd'">
-            {{row.value | currency: 'USD'}}
-        </div>
-        <div *dxTemplate="let row of 'volume_1day_usd'">
-            {{row.value | currency: 'USD'}}
-        </div>
-        <div *dxTemplate="let row of 'volume_1mth_usd'">
-            {{row.value | currency: 'USD'}}
-        </div>
+            <dxo-paging [pageSize]="10"></dxo-paging>
+            <dxo-pager [showPageSizeSelector]="true" [visible]="true" [allowedPageSizes]="[ 10, 20, 50, 100]" [showInfo]="true"></dxo-pager>
     
-    </dx-data-grid>
+        
+            <dxo-export [enabled]="false" [allowExportSelectedData]="true" 
+            [formats]="['xlsx', 'pdf']"></dxo-export>
+        
+        
+            <dxo-remote-operations [filtering]="true" [sorting]="true" [grouping]="false" [paging]="true" [summary]="true"></dxo-remote-operations>
+        
+    
+            <dxo-search-panel [visible]="true"></dxo-search-panel>
+            
+            <dxo-master-detail [enabled]="false"></dxo-master-detail>
+            
+            <dxi-column dataField="asset_id" [fixed]="true" [width]="50" cellTemplate="asset_id" caption=""></dxi-column>
+            <dxi-column dataField="name" [fixed]="true" cellTemplate="name"></dxi-column>
+            <dxi-column dataField="price_usd" cellTemplate="price_usd" caption="Price USD"></dxi-column>
+            <dxi-column dataField="data_trade_end" dataType="date" caption="Last Trade"></dxi-column>
+            <dxi-column dataField="type_is_crypto" cellTemplate="is_crypto" caption="Is Crypto"></dxi-column>
+            <dxi-column dataField="volume_1hrs_usd" cellTemplate="volume_1hrs_usd" caption="Volume (1h)"></dxi-column>
+            <dxi-column dataField="volume_1day_usd" cellTemplate="volume_1day_usd" caption="Volume (1day)"></dxi-column>
+            <dxi-column dataField="volume_1mth_usd" cellTemplate="volume_1mth_usd" caption="Volume (1mth)"></dxi-column>
+            
+            <div *dxTemplate="let row of 'asset_id'">
+                <button (click)="deleteFavorite(row.data.asset_id)" *ngIf="isFavorite(row.data.asset_id)" mat-icon-button color="warn" matTooltip="Remove from favorites">
+                    <mat-icon>favorite</mat-icon>
+                </button>
+                <button (click)="addFavorite(row.data.asset_id, row.data.name, row.data.price_usd, row.data.data_end)" *ngIf="!isFavorite(row.data.asset_id)" mat-icon-button color="warn" matTooltip="Add to favorites">
+                    <mat-icon>favorite_border</mat-icon>
+                </button>
+            </div>
+            <div *dxTemplate="let row of 'name'">
+                <img [src]="getIcon(row.data.asset_id)" style="max-width: 19px;"> {{row.data.name}}
+            </div>
+            <div *dxTemplate="let row of 'price_usd'">
+                {{row.value | currency: 'USD'}}
+            </div>
+            <div *dxTemplate="let row of 'is_crypto'">
+                <span class="badge text-wrap" [ngClass]="{'bg-success': row.data.type_is_crypto == 1, 'bg-primary': row.data.type_is_crypto != 1}">
+                    {{row.data.type_is_crypto == 1 ? 'Yes' : 'No'}}
+                </span>
+            </div>
+            <div *dxTemplate="let row of 'volume_1hrs_usd'">
+                {{row.value | currency: 'USD'}}
+            </div>
+            <div *dxTemplate="let row of 'volume_1day_usd'">
+                {{row.value | currency: 'USD'}}
+            </div>
+            <div *dxTemplate="let row of 'volume_1mth_usd'">
+                {{row.value | currency: 'USD'}}
+            </div>
+        
+        </dx-data-grid>
+    </div>
 </div>
