@@ -8,6 +8,9 @@ export const selectCollectionState = createFeatureSelector<
 export const selectFavoriteCollection = createSelector(
   selectCollectionState,
   ( collection) => {
+    var str = localStorage.getItem("fav")
+    if(str)
+      collection = JSON.parse(str)
     return collection;
   }
 );

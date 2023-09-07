@@ -4,7 +4,7 @@ import { Chart } from 'chart.js';
 import { Favorite } from 'src/app/models/favorite.model';
 import { CoinService } from 'src/app/services/coin.service';
 import { selectFavoriteCollection } from 'src/app/store/favorite.selector';
-import { apiKey, websocketUri } from 'src/environments/environment';
+import { apiKey, apiKeySocket, websocketUri } from 'src/environments/environment';
 
 @Component({
   selector: 'app-chart',
@@ -24,15 +24,6 @@ export class ChartComponent {
     private store: Store<{ count: number }>
     ) {
     
-      // if(localStorage.getItem("symbols")?.length)
-      //   this.symbols = JSON.parse(localStorage.getItem("symbols")??'');
-      // else
-      //   _coinService.getSymbols().subscribe(res =>{
-      //     this.symbols = [...res];
-      //     localStorage.setItem("symbols", JSON.stringify(this.symbols))
-      // })
-
-    
   }
 
   ngOnInit(): void {   
@@ -41,13 +32,9 @@ export class ChartComponent {
 
     this.favorites$.subscribe(res =>{
       this.favorites = [...res];
-    
-      this.chart.data.labels = this.favorites.map(function(x){return x.timestamps});
-      this.chart.data.datasets[0].data = this.favorites.map(function(x){return x.price?.toString()});
-      this.chart.update(); 
     })
 
-    //this.getRealTime()
+    this.getRealTime()
   }
 
   getRealTime(){    
@@ -56,12 +43,9 @@ export class ChartComponent {
 
     var symbols_id: any[] = [];
 
-    //NOTE: I chose a random exchangeId in order to obtain a data
-    var exchange_id = "KRAKENFTS" 
+    var exchange_id = "BITSTAMP" 
     this.favorites.forEach((element)=>{
-      //var symbol = this.symbols.find((x) => x.asset_id_base == element)?.symbol_id
-      //if(symbol) 
-      symbols_id.push(`${exchange_id}_CRE_${element}`)        
+      symbols_id.push(`${exchange_id}_SPOT_${element}`)        
     })
    
     if(!symbols_id.length) return
@@ -69,34 +53,32 @@ export class ChartComponent {
     const socket = new WebSocket(websocketUri);
     var data: any = {};
     var time_exchange: any[] = [];
-    var price: any[] = [];
+    var chart = this.chart;
+
     socket.onopen = function (event) {
         socket.send(JSON.stringify({
             "type": "hello",
-            "apikey": apiKey,
+            "apikey": apiKeySocket,
             "subscribe_data_type": ["trade"],
-            "subscribe_filter_symbol_id": symbols_id
+            //"subscribe_filter_symbol_id": symbols_id
+            "subscribe_filter_symbol_id":  ["BITSTAMP_SPOT_BTC_USD$", "BITFINEX_SPOT_BTC_LTC$"]
         }));
       };
 
     socket.onmessage = function (event) {
     
         data = JSON.parse(event.data);
+
         time_exchange.push(data.time_exchange);
-        price.push(data.price)  
-        console.log(data)
+
+        chart.data.labels = time_exchange;
+        chart.data.datasets[0].data.push(data.price); 
+        chart.update()
 
         socket.onerror = function (error) {
             console.log(`WebSocket error: ${error}`);
         };
     }
-
-    this.chart.data.labels = time_exchange;
-    this.chart.data.datasets[0].data = price; 
-
-    // Update the chart
-    this.chart.update();    
-   
       
   }
 
@@ -119,7 +101,7 @@ export class ChartComponent {
               y: {
                   beginAtZero: true
               }
-          }
+          },
       }
     });
   }

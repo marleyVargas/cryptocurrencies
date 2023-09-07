@@ -50,7 +50,7 @@ export class CoinsComponent {
   isFavorite(assetId: string): boolean{
     var result;
     this.favorites$.subscribe(res =>{
-      result = res?.find((x) => x.id === assetId) ?? "";       
+      result = res?.find((x: { id: string; }) => x.id === assetId) ?? "";       
     })
     return result != "";
   }
